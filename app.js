@@ -1,5 +1,12 @@
 //console.log("It works!");
 
+/*
+ We want to open connection to db as soon as webapp starts,
+ that's why require module is set here'
+*/
+//require('./api/data/dbconnection.js').open();  // when using mongodb
+require('./api/data/db.js');                     // when using mongoose
+
 var express = require('express');
 var app = express();
 // needed to see path of (static) files in server 
