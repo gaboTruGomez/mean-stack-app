@@ -1,3 +1,14 @@
-# mean-stack-app
+#MEAN stack app
 
-This app is made to create first MEAN Stack using Node.js and npm for creating package.json!
+This repo contains the MEAN stack application that is built through 
+Full Stack Training's MEAN Stack Course.
+
+It has a bunch of commented code/sentences that are there for learning purposes.
+
+First Node.js/npm APP!!
+
+Modules Used:
+- MongoDB
+- Express
+- Mongoose
+- NodeJS
