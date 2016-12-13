@@ -39,8 +39,8 @@ var runGeoQuery = function(req, res) {
         .geoNear(point, geoOptions, function(err, results, stats) 
         {
             var response = {
-                status = 200,
-                message = results
+                status : 200,
+                message : results
             }
             if (err)
             {
@@ -216,8 +216,54 @@ module.exports.hotelsGetOne = function (req, res) {
         */
 };
 
+// Helper function in order to split string into array of strings
+// Used to create services and photos values.
+var _splitArray = function(input) {
+    var output;
+    if (input && input.length > 0)
+    {
+        output = input.split(";");
+    }
+    else 
+    {
+        output = [];
+    }
+    return output;
+}
+
 module.exports.hotelsAddOne = function (req, res) {
     //This code is to be used WITH mongoose
+    hotel   
+        .create({
+            name: req.body.name,
+            description: req.body.description,
+            stars: parseInt(req.body.stars, 10),
+            services: _splitArray(req.body.services),
+            photos: _splitArray(req.body.photos),
+            currency: req.body.currency,
+            location: {
+                address: req.body.address,
+                coordinates: [
+                    parseFloat(req.body.lng),
+                    parseFloat(req.body.lat)]
+            }
+        }, function(err, hotelDocAdded) {
+            if (err)
+            {
+                console.log("Error creating hotel");
+                res
+                    .status(400)
+                    .json(err);
+            }
+            else 
+            {
+                console.log("Hotel created", hotelDocAdded);
+                res
+                    .status(201)
+                    .json(hotelDocAdded);
+            }
+        });
+
     
 
 
