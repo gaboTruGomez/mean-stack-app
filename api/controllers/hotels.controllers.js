@@ -304,3 +304,14 @@ module.exports.hotelsAddOne = function (req, res) {
     }
     */
 };
+
+/*
+    This is a PUT request, only use PUT when wanting to update 
+    entire document, not just partial, if you want partial updates
+    (i.e. hotel's name), then use PATCH (if supported) or POST.
+    Common use for PUT is first getting whole document in form fashion with
+    a GET request and then send back whole document back to DB with PUT request.
+*/
+module.exports.hotelsUpdateOne = function(req, res) {
+
+}
