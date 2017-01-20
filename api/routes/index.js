@@ -17,7 +17,8 @@ router.route('/hotels')
 
 router.route('/hotels/:hotelId')
     .get(ctrlHotels.hotelsGetOne)
-    .put(ctrlHotels.hotelsUpdateOne);
+    .put(ctrlHotels.hotelsUpdateOne)
+    .delete(ctrlHotels.hotelDeleteOne);
 
 //router.route('/hotels/new').post(ctrlHotels.hotelsAddOne);
 
@@ -27,7 +28,8 @@ router.route('/hotels/:hotelId/reviews')
 
 router.route('/hotels/:hotelId/reviews/:reviewId')
     .get(ctrlReviews.reviewsGetOne)
-    .put(ctrlReviews.reviewsUpdateOne);
+    .put(ctrlReviews.reviewsUpdateOne)
+    .delete(ctrlReviews.reviewsDeleteOne);
 
 /*
 router.route('/json').get(function(req, res) {

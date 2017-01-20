@@ -312,6 +312,96 @@ module.exports.hotelsAddOne = function (req, res) {
     Common use for PUT is first getting whole document in form fashion with
     a GET request and then send back whole document back to DB with PUT request.
 */
-module.exports.hotelsUpdateOne = function(req, res) {
+module.exports.hotelsUpdateOne = function(req, res) 
+{
+    var hotelId = req.params.hotelId;
+    console.log("GET hotelId ", hotelId);
 
+    /*
+        .select() is a method that with "-" symbol tells 
+        query to not retrieve subdocuments, in order for easier updates 
+        of "hotel" document.
+    */
+    hotel
+        .findById(hotelId)
+        .select("-reviews -rooms")
+        .exec(function(err, doc) {
+            var response = {
+                status : 200,
+                message : doc
+            };
+            if (err)
+            {
+                console.log("Error finding hotel");
+                response.status = 500;
+                response.message = err;
+            }
+            else if (!doc)
+            {
+                response.status = 404;
+                response.message = {
+                    "message" : "Hotel ID not found"
+                };
+            }
+            if (response.status !== 200)
+            {
+                res
+                .status(response.status)
+                .json(response.message);
+            }
+            else 
+            {
+                doc.name = req.body.name;
+                doc.description = req.body.description;
+                doc.stars = parseInt(req.body.stars, 10);
+                doc.services = _splitArray(req.body.services);
+                doc.photos = _splitArray(req.body.photos);
+                doc.currency = req.body.currency;
+                doc.location = {
+                    address : req.body.address,
+                    coordinates : [
+                        parseFloat(req.body.lng),
+                        parseFloat(req.body.lat)
+                    ]
+                };
+                doc.save(function(err, updatedHotelDoc) {
+                    if (err)
+                    {
+                        res
+                            .status(500)
+                            .json(err);
+                    }
+                    else 
+                    {
+                        res
+                            .status(204)
+                            .json();
+                    }
+                })
+            }
+        });
+}
+
+module.exports.hotelDeleteOne = function(req, res)
+{
+    var hotelId = req.params.hotelId;
+    console.log("DELETE hotelId", hotelId);
+
+    hotel
+        .findByIdAndRemove(hotelId)
+        .exec(function(err, hotelDeleted) {
+            if (err)
+            {
+                res
+                    .status(404)
+                    .json(err);
+            }
+            else 
+            {
+                console.log("Hotel deleted, id: ", hotelId);
+                res
+                    .status(204)
+                    .json();
+            }
+        })
 }
